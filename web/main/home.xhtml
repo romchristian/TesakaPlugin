@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="subheader">
+        Inicio
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="Container100">
+            <div class="Card TexAlCenter ">
+                <div class="CardTopic Blue">Inicio</div>
+                <div class="Separator"></div>
+                <span class="Leaden">Use Exportar para generar el archivo .json para el sistema Tesakã</span>
+                <br/>
+                <span class="Leaden">Use Importar para migrar las retenciones generadas por el sistema Tesakã a su sistema</span>
+                <br/>
+                <br/>
+                <br/>
+                <p:button value="Exportar" icon="fa fa-cloud-download" outcome="/main/exportar"/>
+                <p:spacer width="20"/>
+                <p:button value="Importar" icon="fa fa-cloud-upload" outcome="/main/importar"/>
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

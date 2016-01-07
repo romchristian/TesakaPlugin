@@ -1,0 +1,52 @@
+[
+  {
+    "atributos": {
+      "fechaCreacion": "2016-01-07",
+      "fechaHoraCreacion": "2016-01-07 14:13:30"
+    },
+    "informado": {
+      "situacion": "contribuyente",
+      "ruc": "80023747",
+      "dv": "1",
+      "tipoIdentificacion": "",
+      "identificacion": "",
+      "nombre": "BIG BANG S.A.",
+      "domicilio": "MADRES PARAGUAYAS 1040",
+      "direccion": "",
+      "correoElectronico": "",
+      "pais": "",
+      "telefono": ""
+    },
+    "transaccion": {
+      "condicionCompra": "CONTADO",
+      "cuotas": 0,
+      "tipoComprobante": 1,
+      "numeroComprobanteVenta": "001-001-15",
+      "fecha": "2016-01-06",
+      "numeroTimbrado": "23131111"
+    },
+    "detalle": [
+      {
+        "cantidad": 1.0,
+        "tasaAplica": "10",
+        "precioUnitario": 5800000.0,
+        "descripcion": "PRODUCTO XXX"
+      }
+    ],
+    "retencion": {
+      "fecha": "2016-01-07",
+      "moneda": "PYG",
+      "retencionRenta": false,
+      "conceptoRenta": "",
+      "retencionIva": true,
+      "conceptoIva": "IVA.1",
+      "rentaPorcentaje": 0,
+      "rentaCabezasBase": 0,
+      "rentaCabezasCantidad": 0,
+      "rentaToneladasBase": 0,
+      "rentaToneladasCantidad": 0,
+      "ivaPorcentaje5": 30,
+      "ivaPorcentaje10": 30
+    }
+  }
+]

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="TesakaPluginPU" transaction-type="JTA">
+    <jta-data-source>GxTesoreriaDS</jta-data-source>
+    <class>com.ideaspymes.tesakaplugin.exportacion.jpa.tabacos.Cmtcom</class>
+    <class>com.ideaspymes.tesakaplugin.exportacion.jpa.tabacos.Cmtcomdetalleproductos</class>
+    <class>com.ideaspymes.tesakaplugin.exportacion.jpa.tabacos.Cmtprv</class>
+    <class>com.ideaspymes.tesakaplugin.exportacion.jpa.tabacos.Cmttco</class>
+    <class>com.ideaspymes.tesakaplugin.exportacion.jpa.tabacos.Tetcpa</class>
+    <class>com.ideaspymes.tesakaplugin.exportacion.jpa.tabacos.Tetdfa</class>
+    <class>com.ideaspymes.tesakaplugin.exportacion.jpa.tabacos.Tetopg</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties/>
+  </persistence-unit>
+</persistence>
