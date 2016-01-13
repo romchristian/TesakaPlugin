@@ -11,7 +11,7 @@ import com.ideaspymes.tesakaplugin.exportacion.jpa.tabacos.Cmtcomdetalleproducto
 import com.ideaspymes.tesakaplugin.exportacion.jpa.tabacos.Cmtprv;
 import com.ideaspymes.tesakaplugin.exportacion.jpa.tabacos.Tetdfa;
 import com.ideaspymes.tesakaplugin.exportacion.jpa.tabacos.Tetopg;
-import com.ideaspymes.tesakaplugin.exportacion.json.Atributos;
+import com.ideaspymes.tesakaplugin.exportacion.json.AtributosExp;
 import com.ideaspymes.tesakaplugin.exportacion.json.Detalle;
 import com.ideaspymes.tesakaplugin.exportacion.json.Documento;
 import com.ideaspymes.tesakaplugin.exportacion.json.Informado;
@@ -95,7 +95,7 @@ public class ExportacionFacade implements IExportacionLocal{
 
     private Documento creaDocumento(Cmtcom f, Tetopg op) {
 
-        Atributos atributos = creaAtributos();
+        AtributosExp atributos = creaAtributos();
         Informado informado = creaInformado(f);
         List<Detalle> detalles = creaDetalles(f);
         Retencion ret = creaRetencion(f, op);
@@ -125,12 +125,12 @@ public class ExportacionFacade implements IExportacionLocal{
         return R;
     }
 
-    private Atributos creaAtributos() {
+    private AtributosExp creaAtributos() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat sdfHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Date fechaCreacion = new Date();
-        Atributos atributos = new Atributos(sdf.format(fechaCreacion), sdfHora.format(fechaCreacion));
+        AtributosExp atributos = new AtributosExp(sdf.format(fechaCreacion), sdfHora.format(fechaCreacion));
         return atributos;
     }
 

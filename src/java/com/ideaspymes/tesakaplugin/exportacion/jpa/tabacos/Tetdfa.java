@@ -100,6 +100,8 @@ public class Tetdfa implements Serializable {
         @JoinColumn(name = "TeOPgEmpAuxCod", referencedColumnName = "TeOPgEmpAuxCod", insertable = false, updatable = false)})
     @ManyToOne(optional = false)
     private Tetopg tetopg;
+    @Column(name = "TeDFaEstado")
+    private Character teDFaEstado;
 
     public Tetdfa() {
     }
@@ -110,6 +112,14 @@ public class Tetdfa implements Serializable {
 
     public Tetdfa(long teOPgNum, short teOPgEmpAuxCod, short teDFaItm) {
         this.tetdfaPK = new TetdfaPK(teOPgNum, teOPgEmpAuxCod, teDFaItm);
+    }
+
+    public Character getTeDFaEstado() {
+        return teDFaEstado;
+    }
+
+    public void setTeDFaEstado(Character teDFaEstado) {
+        this.teDFaEstado = teDFaEstado;
     }
 
     public TetdfaPK getTetdfaPK() {
@@ -376,5 +386,5 @@ public class Tetdfa implements Serializable {
     public String toString() {
         return "com.ideaspymes.tesakaplugin.exportacion.jpa.Tetdfa[ tetdfaPK=" + tetdfaPK + " ]";
     }
-    
+
 }

@@ -7,6 +7,7 @@ package com.ideaspymes.tesakaplugin.exportacion.controller;
 
 import com.google.gson.GsonBuilder;
 import com.ideaspymes.tesakaplugin.exportacion.ejb.IExportacionLocal;
+import com.ideaspymes.tesakaplugin.exportacion.generico.JsfUtil;
 import com.ideaspymes.tesakaplugin.exportacion.json.Documento;
 import java.io.IOException;
 import java.io.Serializable;
@@ -27,6 +28,7 @@ public class ExportacionController implements Serializable {
 
     @EJB
     private IExportacionLocal facade;
+
     private List<Documento> documentos;
 
     public List<Documento> getDocumentos() {
@@ -38,21 +40,28 @@ public class ExportacionController implements Serializable {
     }
 
     public String generaJson() throws IOException {
+
         documentos = facade.getDocumentos();
-        String json = new GsonBuilder().setPrettyPrinting().create().toJson(documentos);
 
-        HttpServletResponse response
-                = (HttpServletResponse) FacesContext.getCurrentInstance()
-                .getExternalContext().getResponse();
+        if (documentos != null && !documentos.isEmpty()) {
+            String json = new GsonBuilder().setPrettyPrinting().create().toJson(documentos);
 
-        response.setContentType("application/json");
-        response.setHeader("Content-Disposition", "attachment; filename=facturas.json");
+            HttpServletResponse response
+                    = (HttpServletResponse) FacesContext.getCurrentInstance()
+                    .getExternalContext().getResponse();
 
-        response.getOutputStream().write(json.getBytes());
-        response.getOutputStream().flush();
-        response.getOutputStream().close();
-        FacesContext.getCurrentInstance().responseComplete();
+            response.setContentType("application/json");
+            response.setHeader("Content-Disposition", "attachment; filename=facturas.json");
 
+            response.getOutputStream().write(json.getBytes());
+            response.getOutputStream().flush();
+            response.getOutputStream().close();
+            FacesContext.getCurrentInstance().responseComplete();
+        }else{
+            JsfUtil.addErrorMessage("No hay nada que generar!");
+        }
+        
+        
         return null;
     }
 }

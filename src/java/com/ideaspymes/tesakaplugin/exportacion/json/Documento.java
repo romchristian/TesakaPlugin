@@ -17,7 +17,7 @@ public class Documento {
      */
     @SerializedName("atributos")
     @Expose
-    private Atributos atributos;
+    private AtributosExp atributos;
     /**
      * 
      * (Required)
@@ -66,7 +66,7 @@ public class Documento {
      * @param detalle
      * @param retencion
      */
-    public Documento(Atributos atributos, Informado informado, Transaccion transaccion, List<Detalle> detalle, Retencion retencion) {
+    public Documento(AtributosExp atributos, Informado informado, Transaccion transaccion, List<Detalle> detalle, Retencion retencion) {
         this.atributos = atributos;
         this.informado = informado;
         this.transaccion = transaccion;
@@ -81,7 +81,7 @@ public class Documento {
      * @return
      *     The atributos
      */
-    public Atributos getAtributos() {
+    public AtributosExp getAtributos() {
         return atributos;
     }
 
@@ -92,7 +92,7 @@ public class Documento {
      * @param atributos
      *     The atributos
      */
-    public void setAtributos(Atributos atributos) {
+    public void setAtributos(AtributosExp atributos) {
         this.atributos = atributos;
     }
 

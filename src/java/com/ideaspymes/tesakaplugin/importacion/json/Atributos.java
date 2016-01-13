@@ -1,15 +1,20 @@
 
-package com.ideaspymes.tesakaplugin.exportacion.json;
+package com.ideaspymes.tesakaplugin.importacion.json;
 
 import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+
+/**
+ * Información adicional asociada al comprobante
+ * 
+ */
 @Generated("org.jsonschema2pojo")
 public class Atributos {
 
     /**
-     * 
+     * Fecha de creación del comprobante
      * (Required)
      * 
      */
@@ -17,33 +22,22 @@ public class Atributos {
     @Expose
     private String fechaCreacion;
     /**
-     * 
-     * (Required)
+     * Fecha y hora de creación del comprobante
      * 
      */
     @SerializedName("fechaHoraCreacion")
     @Expose
     private String fechaHoraCreacion;
-
     /**
-     * No args constructor for use in serialization
+     * Identificador único del comprobante
      * 
      */
-    public Atributos() {
-    }
+    @SerializedName("uuid")
+    @Expose
+    private String uuid;
 
     /**
-     * 
-     * @param fechaHoraCreacion
-     * @param fechaCreacion
-     */
-    public Atributos(String fechaCreacion, String fechaHoraCreacion) {
-        this.fechaCreacion = fechaCreacion;
-        this.fechaHoraCreacion = fechaHoraCreacion;
-    }
-
-    /**
-     * 
+     * Fecha de creación del comprobante
      * (Required)
      * 
      * @return
@@ -54,7 +48,7 @@ public class Atributos {
     }
 
     /**
-     * 
+     * Fecha de creación del comprobante
      * (Required)
      * 
      * @param fechaCreacion
@@ -65,8 +59,7 @@ public class Atributos {
     }
 
     /**
-     * 
-     * (Required)
+     * Fecha y hora de creación del comprobante
      * 
      * @return
      *     The fechaHoraCreacion
@@ -76,14 +69,33 @@ public class Atributos {
     }
 
     /**
-     * 
-     * (Required)
+     * Fecha y hora de creación del comprobante
      * 
      * @param fechaHoraCreacion
      *     The fechaHoraCreacion
      */
     public void setFechaHoraCreacion(String fechaHoraCreacion) {
         this.fechaHoraCreacion = fechaHoraCreacion;
+    }
+
+    /**
+     * Identificador único del comprobante
+     * 
+     * @return
+     *     The uuid
+     */
+    public String getUuid() {
+        return uuid;
+    }
+
+    /**
+     * Identificador único del comprobante
+     * 
+     * @param uuid
+     *     The uuid
+     */
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
 }

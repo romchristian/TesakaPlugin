@@ -9,7 +9,16 @@
     <class>com.ideaspymes.tesakaplugin.exportacion.jpa.tabacos.Tetcpa</class>
     <class>com.ideaspymes.tesakaplugin.exportacion.jpa.tabacos.Tetdfa</class>
     <class>com.ideaspymes.tesakaplugin.exportacion.jpa.tabacos.Tetopg</class>
+    <class>com.ideaspymes.tesakaplugin.exportacion.jpa.tabacos.Tetrecret</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties/>
+  </persistence-unit>
+  <persistence-unit name="TesakaLocalPU" transaction-type="JTA">
+    <jta-data-source>TesakaLocalDS</jta-data-source>
+    <class>com.ideaspymes.tesakaplugin.importacion.jpa.RetencionGenerada</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+    </properties>
   </persistence-unit>
 </persistence>

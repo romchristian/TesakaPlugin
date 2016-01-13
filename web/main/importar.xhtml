@@ -17,7 +17,76 @@
                     <span style="position: relative; left: -30px">Importar</span>
                 </div>
                 <div class="Separator"></div>
-                <br/>
+
+                <h:form>
+                    <p:fileUpload fileUploadListener="#{importacionController.handleFileUpload}" mode="advanced"
+                                  label="Elegir"
+                                  update="messages panel" auto="true" sizeLimit="100000" allowTypes="/(\.|\/)(txt|json)$/" />
+                    <p:growl id="messages" showDetail="true" />
+
+
+
+                    <p:blockUI block="panel" trigger="sendBtn">
+                        ENVIANDO...<br />
+                        <p:graphicImage name="upload.GIF" library="img"/>
+                    </p:blockUI>
+
+                    <p:outputPanel id="panel">
+                        <p:outputPanel class="Wid100 TexAlRight" rendered="#{not(empty importacionController.retenciones)}">
+                            <p:commandButton value="Enviar" action="#{importacionController.migrar()}" update="messages panel"  icon="fa fa-send"
+                                             id="sendBtn"
+                                             styleClass="GreenButton"/>
+                        </p:outputPanel>
+
+
+                        <p:dataTable value="#{importacionController.retenciones}" var="r" id="retenciones"
+                                     rendered="#{not(empty importacionController.retenciones)}">
+                            <p:column headerText="RUC Proveedor">
+                                <h:outputText value="#{r.proveedorRuc} - #{r.proveedorDv}"/>
+                            </p:column>
+                            <p:column headerText="Proveedor">
+                                <h:outputText value="#{r.proveedorNombre}"/>
+                            </p:column>
+                            <p:column headerText="Timbrado">
+                                <h:outputText value="#{r.timbradoComprobante}"/>
+                            </p:column>
+                            <p:column headerText="Nro">
+                                <h:outputText value="#{r.establecimiento} - #{r.puntoExpedicionComprobante} - #{r.numero}"/>
+                            </p:column>
+                            <p:column headerText="Fecha Retencion">
+                                <h:outputText value="#{r.fechaRetencion}"/>
+                            </p:column>
+                            <p:column headerText="Factura">
+                                <h:outputText value="#{r.numeroTimbradoFactura} / #{r.numeroComprobanteVenta}"/>
+                            </p:column>
+                            <p:column headerText="Valor Total Operacion">
+                                <h:outputText value="#{r.totalFactura}"/>
+                            </p:column>
+                            <p:column headerText="Iva base 5">
+                                <h:outputText value="#{r.ivaBase5}"/>
+                            </p:column>
+                            <p:column headerText="Iva base 10">
+                                <h:outputText value="#{r.ivaBase10}"/>
+                            </p:column>
+                            <p:column headerText="Iva total">
+                                <h:outputText value="#{r.impuestoTotal}"/>
+                            </p:column>
+                            <p:column headerText="% IVA 10">
+                                <h:outputText value="#{r.ivaPorcentaje10}"/>
+                            </p:column>
+                            <p:column headerText="% IVA 05">
+                                <h:outputText value="#{r.ivaPorcentaje5}"/>
+                            </p:column>
+                            <p:column headerText="Moneda">
+                                <h:outputText value="#{r.monedaNombre}"/>
+                            </p:column>
+                            <p:column headerText="Monto retenido">
+                                <h:outputText value="#{r.retencionTotal}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:outputPanel>
+
+                </h:form>
             </div>
         </div>
     </ui:define>

@@ -12,21 +12,36 @@
     <ui:define name="content">
 
         <div class="Container100">
-            <div class="Card TexAlCenter ">
-                
-                
-                <div class="CardTopic Blue">
-                    <div class="Fleft"><p:link outcome="home"><i class="icon-arrow-left-thick Fs16" style="color:#29506b"></i><span><span class="Fs16 FontVoltSemiBold" style="color: #29506b">Atras</span></span></p:link></div>
-                    <span style="position: relative; left: -30px">Exportar</span>
-                </div>
-                
-                <div class="Separator"></div>
-                <br/>
-                <h:form>
-                    <p:commandButton value="Generar Json" action="#{exportacionController.generaJson()}" ajax="false"/>
-                </h:form>
+            <h:form>
+                <p:outputPanel id="pnl">
 
-            </div>
+
+                    <div class="Card TexAlCenter ">
+
+
+                        <div class="CardTopic Blue">
+                            <div class="Fleft"><p:link outcome="home"><i class="icon-arrow-left-thick Fs16" style="color:#29506b"></i><span><span class="Fs16 FontVoltSemiBold" style="color: #29506b">Atras</span></span></p:link></div>
+                            <span style="position: relative; left: -30px">Exportar</span>
+                        </div>
+
+                        <div class="Separator"></div>
+                        <br/>
+
+
+                        <p:commandButton value="Generar Json" action="#{exportacionController.generaJson()}" ajax="false" id="generarBtn"/>
+
+
+
+
+                    </div>
+
+                </p:outputPanel>
+                <p:blockUI block="pnl" trigger="generarBtn">
+                    DESCARGANDO ..<br />
+                    <p:graphicImage name="download.gif" library="img"/>
+                </p:blockUI>
+            </h:form>
+
         </div>
 
     </ui:define>
