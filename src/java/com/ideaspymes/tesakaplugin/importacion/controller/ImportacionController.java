@@ -107,7 +107,7 @@ public class ImportacionController implements Serializable {
         }
     }
     
-    public void migrar() {
+    public String migrar() {
         List<RetencionGenerada> retencionesMigradas = facadeMigracion.migra(retenciones);
         for (RetencionGenerada r : retencionesMigradas) {
             facade.marcaMigrado(r);
@@ -115,5 +115,6 @@ public class ImportacionController implements Serializable {
         
         retenciones = facade.getRetencionesNoMigradas();
         
+        return null;
     }
 }

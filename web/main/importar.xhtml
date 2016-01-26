@@ -47,41 +47,39 @@
                             <p:column headerText="Proveedor">
                                 <h:outputText value="#{r.proveedorNombre}"/>
                             </p:column>
-                            <p:column headerText="Timbrado">
-                                <h:outputText value="#{r.timbradoComprobante}"/>
-                            </p:column>
-                            <p:column headerText="Nro">
-                                <h:outputText value="#{r.establecimiento} - #{r.puntoExpedicionComprobante} - #{r.numero}"/>
-                            </p:column>
-                            <p:column headerText="Fecha Retencion">
-                                <h:outputText value="#{r.fechaRetencion}"/>
-                            </p:column>
                             <p:column headerText="Factura">
-                                <h:outputText value="#{r.numeroTimbradoFactura} / #{r.numeroComprobanteVenta}"/>
+                                <h:outputText value="#{r.numeroTimbradoFactura}/#{r.numeroComprobanteVenta}"/>
+                            </p:column>
+                            
+                            
+                            <p:column headerText="Fecha Ret.">
+                                <h:outputText value="#{r.fechaRetencion}">
+                                    <f:convertDateTime locale="#{formateador.locale}" pattern="#{formateador.patternFecha}" timeZone="America/Asuncion"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Nro Ret.">
+                                <h:outputText value="#{r.timbradoComprobante}/#{r.establecimiento} - #{r.puntoExpedicionComprobante} - #{r.numero}"/>
                             </p:column>
                             <p:column headerText="Valor Total Operacion">
-                                <h:outputText value="#{r.totalFactura}"/>
+                                <h:outputText value="#{r.totalFactura}">
+                                    <f:convertNumber locale="#{formateador.locale}"/>
+                                </h:outputText>
+                                 (#{r.moneda.toString()})
                             </p:column>
-                            <p:column headerText="Iva base 5">
-                                <h:outputText value="#{r.ivaBase5}"/>
-                            </p:column>
-                            <p:column headerText="Iva base 10">
-                                <h:outputText value="#{r.ivaBase10}"/>
-                            </p:column>
-                            <p:column headerText="Iva total">
-                                <h:outputText value="#{r.impuestoTotal}"/>
+                            <p:column headerText="Iva Total">
+                                <h:outputText value="#{r.impuestoTotal}">
+                                    <f:convertNumber locale="#{formateador.locale}"/>
+                                </h:outputText>
+                                 (#{r.moneda.toString()})
                             </p:column>
                             <p:column headerText="% IVA 10">
-                                <h:outputText value="#{r.ivaPorcentaje10}"/>
+                                <h:outputText value="#{r.ivaPorcentaje10.toString()}"/>
                             </p:column>
-                            <p:column headerText="% IVA 05">
-                                <h:outputText value="#{r.ivaPorcentaje5}"/>
-                            </p:column>
-                            <p:column headerText="Moneda">
-                                <h:outputText value="#{r.monedaNombre}"/>
-                            </p:column>
-                            <p:column headerText="Monto retenido">
-                                <h:outputText value="#{r.retencionTotal}"/>
+                            <p:column headerText="Monto
+                                      Retenido (GS)">
+                                <h:outputText value="#{r.retencionTotal}">
+                                    <f:convertNumber locale="#{formateador.locale}"/>
+                                </h:outputText>
                             </p:column>
                         </p:dataTable>
                     </p:outputPanel>

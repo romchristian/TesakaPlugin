@@ -28,8 +28,61 @@
                         <br/>
 
 
-                        <p:commandButton value="Generar Json" action="#{exportacionController.generaJson()}" ajax="false" id="generarBtn"/>
+                        <p:commandButton value="Traer documentos pendientes de retención" action="#{exportacionController.buscar()}" ajax="false" id="traerBtn"
+                                         update="panel"/>
 
+                        <p:outputPanel id="panel">
+
+
+                            <p:outputPanel class="Wid100 TexAlRight" rendered="#{not(empty exportacionController.documentos)}">
+                                
+                                <p:commandButton value="Generar Json" action="#{exportacionController.generaJson()}" ajax="false" id="generarBtn" styleClass=""/>
+                            </p:outputPanel>
+
+
+                            <p:dataTable value="#{exportacionController.documentos}" var="d" id="documentos"
+                                         rendered="#{not(empty exportacionController.documentos)}"
+                                         reflow="true"
+                                         resizeMode="fit">
+
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <p:menuButton value="Opciones">
+                                            <p:menuitem value="Todos" actionListener="#{exportacionController.seleccionarTodos()}" update="documentos" icon="fa fa-check-square"/>
+                                            <p:menuitem value="Ninguno" actionListener="#{exportacionController.deseleccionarTodos()}" update="documentos" icon="fa fa-square-o"/>
+                                            <p:menuitem value="Invertir" actionListener="#{exportacionController.invertirTodos()}" update="documentos" icon="fa fa-minus-square-o"/>
+                                        </p:menuButton>
+                                    </f:facet>
+                                    <p:selectBooleanCheckbox value="#{d.enviar}" rendered="#{d.renderEnviar}"/>
+                                    <h:outputText value="#{d.mensaje}" rendered="#{not(d.renderEnviar)}" styleClass="Red FontVoltRegular F14"/>
+                                </p:column>
+
+                                <p:column headerText="Proveedor">
+                                    <h:outputText value="#{d.informado.nombre}/#{d.informado.ruc}-#{d.informado.dv}"/>
+                                </p:column>
+                                <p:column headerText="Tipo Doc.">
+                                    <h:outputText value="#{d.transaccion.tipoComprobante == '1'?'FACTURA':'OTRO'}"/>
+                                </p:column>
+                                <p:column headerText="Nro Doc.">
+                                    <h:outputText value="#{d.transaccion.numeroTimbrado} / #{d.transaccion.numeroComprobanteVenta}"/>
+                                </p:column>
+                                <p:column headerText="Fecha Doc.">
+                                    <h:outputText value="#{d.transaccion.fecha}"/>
+                                </p:column>
+                                <p:column headerText="Condicion Compra">
+                                    <h:outputText value="#{d.transaccion.condicionCompra}"/>
+                                </p:column>
+                                <p:column headerText="Total Operación">
+                                    <h:outputText value="#{d.total}">
+                                        <f:convertNumber locale="#{formateador.locale}"/>
+                                    </h:outputText>
+                                </p:column>
+
+
+                            </p:dataTable>
+
+                        </p:outputPanel>
 
 
 

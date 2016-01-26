@@ -11,6 +11,9 @@ import com.ideaspymes.tesakaplugin.exportacion.generico.JsfUtil;
 import com.ideaspymes.tesakaplugin.exportacion.json.Documento;
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
@@ -25,43 +28,89 @@ import javax.servlet.http.HttpServletResponse;
 @Named
 @ViewScoped
 public class ExportacionController implements Serializable {
-
+    
     @EJB
     private IExportacionLocal facade;
-
+    
     private List<Documento> documentos;
-
+    
     public List<Documento> getDocumentos() {
         return documentos;
     }
-
+    
     public void setDocumentos(List<Documento> documentos) {
         this.documentos = documentos;
     }
-
-    public String generaJson() throws IOException {
-
+    
+    public void buscar() {
         documentos = facade.getDocumentos();
-
+        for (Documento d : documentos) {
+            if (d.getTotal() == 0) {
+                d.setRenderEnviar(false);
+                d.setMensaje("No tiene detalles");
+            }
+        }
+    }
+    
+    public String generaJson() throws IOException {
+        
         if (documentos != null && !documentos.isEmpty()) {
-            String json = new GsonBuilder().setPrettyPrinting().create().toJson(documentos);
-
+            List<Documento> docsAEnviar = new ArrayList<>();
+            for (Documento d : documentos) {
+                if (d.getEnviar()) {
+                    docsAEnviar.add(d);
+                }
+            }
+            
+            String json = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create().toJson(docsAEnviar);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+            String postfix = sdf.format(new Date());
+            String filename = "documentosJson_"+postfix+".txt";
+            
             HttpServletResponse response
                     = (HttpServletResponse) FacesContext.getCurrentInstance()
                     .getExternalContext().getResponse();
-
-            response.setContentType("application/json");
-            response.setHeader("Content-Disposition", "attachment; filename=facturas.json");
-
+            
+            response.setContentType("application/text");
+            response.setHeader("Content-Disposition", "attachment; filename="+filename);
+            
             response.getOutputStream().write(json.getBytes());
             response.getOutputStream().flush();
             response.getOutputStream().close();
             FacesContext.getCurrentInstance().responseComplete();
-        }else{
+        } else {
             JsfUtil.addErrorMessage("No hay nada que generar!");
         }
         
-        
         return null;
+    }
+    
+    public void seleccionarTodos() {
+        for (Documento d : documentos) {
+            if (d.getRenderEnviar()) {
+                d.setEnviar(Boolean.TRUE);
+            }
+        }
+    }
+    
+    public void deseleccionarTodos() {
+        for (Documento d : documentos) {
+            if (d.getRenderEnviar()) {
+                d.setEnviar(Boolean.FALSE);
+            }
+        }
+    }
+    
+    
+    public void invertirTodos() {
+        for (Documento d : documentos) {
+            if (d.getRenderEnviar()) {
+                if(d.getEnviar()){
+                    d.setEnviar(Boolean.FALSE);
+                }else{
+                    d.setEnviar(Boolean.TRUE);
+                }
+            }
+        }
     }
 }

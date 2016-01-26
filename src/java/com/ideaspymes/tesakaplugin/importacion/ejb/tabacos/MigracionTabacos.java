@@ -14,6 +14,7 @@ import com.ideaspymes.tesakaplugin.importacion.ejb.IMigracionFacade;
 import com.ideaspymes.tesakaplugin.importacion.jpa.RetencionGenerada;
 import com.ideaspymes.tesakaplugin.importacion.json.TransaccionImp;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -83,11 +84,10 @@ public class MigracionTabacos implements IMigracionFacade {
 
         R.setTeRecRetEdo('I');
         R.setTeRecRetFec(r.getFechaRetencion());
-        R.setTeRecRetIVAIncTra(new BigDecimal(r.getIvaTotal()));
-
-        R.setTeRecRetIVAIncluidoGs(getMontoGs(r.getIvaTotal(), r.getTipoCambio()));
-        R.setTeRecRetImpRet(new BigDecimal(r.getRetencionTotal()));
-        R.setTeRecRetImporteRetenidoGs(getMontoGs(r.getRetencionTotal(), r.getTipoCambio()));
+        R.setTeRecRetIVAIncTra(getMontoUSS(r.getIvaTotal(),r.getTipoCambio()));
+        R.setTeRecRetIVAIncluidoGs(new BigDecimal(r.getIvaTotal()));
+        R.setTeRecRetImpRet(getMontoUSS(r.getRetencionTotal(),r.getTipoCambio()));
+        R.setTeRecRetImporteRetenidoGs(new BigDecimal(r.getRetencionTotal()));
         R.setTeRecRetOPgNum(null);//Nro OP
         R.setTeRecRetPrjIVARet(getPorcentaje(r.getIvaPorcentaje10().toString()));
         //Factura de proveedor
@@ -107,29 +107,29 @@ public class MigracionTabacos implements IMigracionFacade {
             R.setTeRecRetTpoDoc(new Short("2"));//Buscar desde la base de datos
         }
         R.setTeRecRetUltNumLinDet(new Short("0"));
-        R.setTeRecRetValTotTra(new BigDecimal(r.getValorTotal()));
-        R.setTeRecRetValTraSinIVA(new BigDecimal(r.getValorTotal() - r.getImpuestoTotal()));
-        R.setTeRecRetValorTotalSinIVAGs(getMontoGs(r.getValorTotal() - r.getImpuestoTotal(), r.getTipoCambio()));
-        R.setTeRecRetValorTotalTranGs(getMontoGs(r.getValorTotal(), r.getTipoCambio()));
+        R.setTeRecRetValTotTra(getMontoUSS(r.getValorTotal(),r.getTipoCambio()));
+        R.setTeRecRetValTraSinIVA(getMontoUSS(r.getValorTotal() - r.getImpuestoTotal(),r.getTipoCambio()));
+        R.setTeRecRetValorTotalSinIVAGs(new BigDecimal(r.getValorTotal() - r.getImpuestoTotal()));
+        R.setTeRecRetValorTotalTranGs(new BigDecimal(r.getValorTotal()));
 
         return R;
 
     }
 
-    public BigDecimal getMontoGs(Double monto, Integer tipoCambio) {
+    public BigDecimal getMontoUSS(Double monto, Integer tipoCambio) {
         if (tipoCambio == null || tipoCambio == 0) {
             return new BigDecimal(monto);
         } else {
-            return new BigDecimal(monto).multiply(new BigDecimal(tipoCambio));
+            return new BigDecimal(monto).divide(new BigDecimal(tipoCambio),2,RoundingMode.HALF_EVEN);
         }
 
     }
 
-    public BigDecimal getMontoGs(Integer monto, Integer tipoCambio) {
+    public BigDecimal getMontoUSS(Integer monto, Integer tipoCambio) {
         if (tipoCambio == null || tipoCambio == 0) {
             return new BigDecimal(monto);
         } else {
-            return new BigDecimal(monto).multiply(new BigDecimal(tipoCambio));
+            return new BigDecimal(monto).divide(new BigDecimal(tipoCambio),2,RoundingMode.HALF_EVEN);
         }
     }
 
@@ -164,6 +164,7 @@ public class MigracionTabacos implements IMigracionFacade {
         Tetdfa R = null;
 
         try {
+            
             R = (Tetdfa) em.createQuery("SELECT d from Tetdfa d "
                     + " WHERE d.teDFaEstado = 'E' "
                     + " AND d.tetopg.teOPgPrvCod.cmPrvCod = ?1 "
