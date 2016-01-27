@@ -3,29 +3,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ideaspymes.tesakaplugin.web.generico;
+package com.ideaspymes.tesakaplugin.seguridad.jpa;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 /**
  *
  * @author christian.romero
  */
 @Entity
-public class Usuario implements Serializable {
+public class Grupo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String username;
-    private String password;
-    private Boolean permitido;
-    private String sucursal;
+    private String nombre;
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Usuario> usuarios;
 
     public Long getId() {
         return id;
@@ -35,36 +37,20 @@ public class Usuario implements Serializable {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getPassword() {
-        return password;
+    public List<Usuario> getUsuarios() {
+        return usuarios;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Boolean getPermitido() {
-        return permitido;
-    }
-
-    public void setPermitido(Boolean permitido) {
-        this.permitido = permitido;
-    }
-
-    public String getSucursal() {
-        return sucursal;
-    }
-
-    public void setSucursal(String sucursal) {
-        this.sucursal = sucursal;
+    public void setUsuarios(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
     }
 
     @Override
@@ -77,10 +63,10 @@ public class Usuario implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Usuario)) {
+        if (!(object instanceof Grupo)) {
             return false;
         }
-        Usuario other = (Usuario) object;
+        Grupo other = (Grupo) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -89,7 +75,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "com.ideaspymes.tesakaplugin.web.generico.Usuario[ id=" + id + " ]";
+        return "com.ideaspymes.tesakaplugin.web.generico.Grupo[ id=" + id + " ]";
     }
 
 }

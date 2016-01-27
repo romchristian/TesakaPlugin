@@ -5,6 +5,7 @@
 package com.ideaspymes.tesakaplugin.web.generico;
 
 
+import com.ideaspymes.tesakaplugin.seguridad.jpa.Usuario;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;

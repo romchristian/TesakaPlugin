@@ -18,12 +18,14 @@ import com.ideaspymes.tesakaplugin.exportacion.json.Informado;
 import com.ideaspymes.tesakaplugin.exportacion.json.Retencion;
 import com.ideaspymes.tesakaplugin.exportacion.json.RetencionMasTipoCambio;
 import com.ideaspymes.tesakaplugin.exportacion.json.Transaccion;
+import com.ideaspymes.tesakaplugin.web.generico.Credencial;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -32,15 +34,19 @@ import javax.persistence.PersistenceContext;
  * @author christian.romero
  */
 @Stateless
-public class ExportacionFacade implements IExportacionLocal{
+public class ExportacionFacade implements IExportacionLocal {
 
     @PersistenceContext(unitName = "TesakaPluginPU")
     private EntityManager em;
+    @Inject
+    private Credencial credencial;
 
     @Override
     public List<Documento> getDocumentos() {
 
-        List<Tetopg> ops = em.createQuery("SELECT op FROM Tetopg op WHERE op.teOPgEst = 'E'").getResultList();
+        List<Tetopg> ops = em.createQuery("SELECT op FROM Tetopg op WHERE op.teOPgEst = 'E' and op.teOPgSucCod = ?1")
+                .setParameter(1, getSucursal())
+                .getResultList();
 
         List<Cmtcom> facturas = new ArrayList<>();
         List<Documento> R = new ArrayList<>();
@@ -215,6 +221,26 @@ public class ExportacionFacade implements IExportacionLocal{
                 f.getCmtcomPK().getCmComTimNum() + "");
 
         return trans;
+    }
+
+    private Short getSucursal() {
+        Short R = null;
+        switch (credencial.getUsuario().getSucursal()) {
+            case "ASU":
+                R = new Short("1");
+                break;
+            case "CDE":
+                R = new Short("2");
+                break;
+            case "PJC":
+                R = new Short("5");
+                break;
+            case "ENC":
+                R = new Short("3");
+                break;
+        }
+
+        return R;
     }
 
 }

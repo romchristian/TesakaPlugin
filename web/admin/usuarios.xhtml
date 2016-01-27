@@ -1,0 +1,85 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="subheader">
+        Usuarios
+    </ui:define>
+
+    <ui:define name="content">
+
+        <div class="Container100">
+            <h:form id="formUsuarios">
+                <p:outputPanel id="pnl">
+
+
+                    <div class="Card TexAlCenter ">
+
+
+                        <div class="CardTopic Blue">
+                            <div class="Fleft"><p:link outcome="/main/home"><i class="icon-arrow-left-thick Fs16" style="color:#29506b"></i><span><span class="Fs16 FontVoltSemiBold" style="color: #29506b">Atras</span></span></p:link></div>
+                            <span style="position: relative; left: -30px">Usuarios</span>
+                        </div>
+
+                        <div class="Separator"></div>
+                        <br/>
+
+
+
+                        <p:outputPanel id="panel">
+
+                            <p:commandButton value="Autorizar/Desautorizar" action="#{usuarioBean.toogleEstado()}"  id="autorizarBtn" styleClass="GreenButton FRight"
+                                             disabled="#{empty usuarioBean.actual}"
+                                             rendered="#{(request.isUserInRole('admin'))}"
+                                             update="usuarios @this"/>
+
+                            <p:dataTable value="#{usuarioBean.usuarios}" var="u" id="usuarios"
+                                         selectionMode="single" selection="#{usuarioBean.actual}"
+                                         rowKey="#{u.id}"
+                                         reflow="true"
+                                         resizeMode="fit">
+
+                                <p:ajax event="rowSelect"   update=":formUsuarios:autorizarBtn"/>
+                                <p:ajax event="rowUnselect" update=":formUsuarios:autorizarBtn"/>
+
+                                <p:column headerText="Nombre">
+                                    <h:outputText value="#{u.nombres}"/>
+                                </p:column>
+                                <p:column headerText="Usuario">
+                                    <h:outputText value="#{u.username}"/>
+                                </p:column>
+                                <p:column headerText="Sucursal">
+                                    <h:outputText value="#{u.sucursal}"/>
+                                </p:column>
+                                <p:column headerText="Timbrado">
+                                    <h:outputText value="#{u.timbrado}"/>
+                                </p:column>
+                                <p:column headerText="Punto Expedición">
+                                    <h:outputText value="#{u.puntoExpedicion}"/>
+                                </p:column>
+                                <p:column headerText="Autorizado">
+                                    <h:outputText value="#{u.permitido == true?'SI':'NO'}"/>
+                                </p:column>
+                            </p:dataTable>
+
+                        </p:outputPanel>
+
+
+
+                    </div>
+
+                </p:outputPanel>
+                <p:blockUI block="pnl" trigger="autorizarBtn">
+                    DESCARGANDO ..<br />
+                    <p:graphicImage name="download.gif" library="img"/>
+                </p:blockUI>
+            </h:form>
+
+        </div>
+
+    </ui:define>
+
+</ui:composition>

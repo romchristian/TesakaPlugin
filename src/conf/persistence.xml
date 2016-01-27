@@ -16,10 +16,10 @@
   <persistence-unit name="TesakaLocalPU" transaction-type="JTA">
     <jta-data-source>TesakaLocalDS</jta-data-source>
     <class>com.ideaspymes.tesakaplugin.importacion.jpa.RetencionGenerada</class>
-    <class>com.ideaspymes.tesakaplugin.web.generico.Usuario</class>
+    <class>com.ideaspymes.tesakaplugin.seguridad.jpa.Grupo</class>
+    <class>com.ideaspymes.tesakaplugin.seguridad.jpa.Usuario</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
-      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
   </persistence-unit>
 </persistence>

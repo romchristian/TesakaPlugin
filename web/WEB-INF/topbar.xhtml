@@ -16,11 +16,11 @@
 
             <span class="DispInlBlock Fright" style="margin:10px 10px 0px 0px;">
                 <h:form styleClass="DispInline">
-                    <p:splitButton value="Menu" icon="ui-icon-check fa fa-cog" styleClass="White Fs14" appendTo="@this">
-                        <p:menuitem value="Mi Cuenta" icon="fa fa-user" />
-                        <p:menuitem value="Configuracón" icon="fa fa-cog" />
-                        <p:separator />
-                        <p:menuitem value="Salir" url="#" icon="fa fa-key" />
+                    <p:splitButton value="Mi cuenta" icon="fa fa-user" styleClass="White Fs14" appendTo="@this">
+                        <p:menuitem value="Cambiar clave" icon="fa fa-key" outcome="/main/cambiarClave"/>
+                        <p:menuitem value="Configuración" icon="fa fa-cog" rendered="#{request.isUserInRole('admin')}" outcome="/admin/usuarios"/>
+                        <p:separator/>
+                        <p:menuitem value="Salir" icon="fa fa-power-off" action="#{autenticador.logout()}"/>
                     </p:splitButton>
                 </h:form>
             </span>
@@ -31,12 +31,17 @@
     <!-- TOPMENU START -->
     <ul id="top-menu">
         <li style="float:left; border:none;">
-            <a href="#"><i class="icon-vcard Opac80 Fs22"></i><span><span class="Fs16">Mr. Jack BAUER, Welcome</span></span></a>
+            <a href="#">
+                    <i class="icon-vcard Opac80 Fs28"></i><span><span class="Fs16">Bienvenido, #{credencial.usuario.nombres}</span>
+                        
+                    <br/>
+                    
+                    <span class="Opac50 Fs14">Sucursal #{credencial.usuario.sucursal}</span>
+                    
+                    <span class="Opac50 Fs14" style="margin-left: 10px;">Timbrado: #{credencial.usuario.timbrado}</span>
+                    
+                    <span class="Opac50 Fs14" style="margin-left: 10px;">Punto Exp.: #{credencial.usuario.puntoExpedicion}</span></span></a>
         </li>
-
-
-
-
     </ul>
     <!-- TOPMENU END -->
 

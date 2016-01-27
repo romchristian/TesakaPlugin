@@ -4,6 +4,8 @@
  */
 package com.ideaspymes.tesakaplugin.web.generico;
 
+import com.ideaspymes.tesakaplugin.seguridad.ejb.UsuarioFacade;
+import com.ideaspymes.tesakaplugin.seguridad.jpa.Usuario;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Level;
@@ -31,7 +33,8 @@ public class Autenticador implements Serializable {
     
     @Inject
     private Credencial credencial;
-    
+    @EJB
+    private UsuarioFacade facade;
     private String username;
     private String password;
 
@@ -64,17 +67,16 @@ public class Autenticador implements Serializable {
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
 
         try {
+            System.out.println("Intento logearme");
             request.login(username, password);
             
-            Usuario u = new Usuario();
-            u.setUsername(username);
-            u.setPassword(password);
-            u.setPermitido(Boolean.TRUE);
+            Usuario u = facade.find(username);
             
             System.out.println("Usuario en el login: " + u);
             credencial.setUsuario(u);
             
         } catch (ServletException ex) {
+            System.out.println("Error al logearme");
             Logger.getLogger(Autenticador.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "/main/home.xhtml?faces-redirect=true";

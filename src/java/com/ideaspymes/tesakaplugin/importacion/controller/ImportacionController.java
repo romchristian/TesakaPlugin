@@ -10,9 +10,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.ideaspymes.tesakaplugin.importacion.ejb.IMigracionFacade;
 import com.ideaspymes.tesakaplugin.importacion.ejb.ImportacionFacade;
+import com.ideaspymes.tesakaplugin.importacion.ejb.RetencionDuplicadaException;
 import com.ideaspymes.tesakaplugin.importacion.jpa.RetencionGenerada;
 import com.ideaspymes.tesakaplugin.importacion.json.Datos;
 import com.ideaspymes.tesakaplugin.importacion.json.DocumentoGenerado;
+import com.ideaspymes.tesakaplugin.web.generico.JsfUtil;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
@@ -28,6 +30,8 @@ import org.primefaces.model.UploadedFile;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -78,6 +82,7 @@ public class ImportacionController implements Serializable {
             System.out.println("datos: " + datos.size());
             
             retenciones = new ArrayList<>();
+            boolean hayDuplicaciones = false;
             
             for (DocumentoGenerado dg : datos) {
                 Datos d = dg.getDatos();
@@ -92,7 +97,11 @@ public class ImportacionController implements Serializable {
                 System.out.println("Id: " + d.getId());
                 
                 if (dg.getEstado().compareToIgnoreCase("borrador") == 0) {
-                    facade.persist(d, dg.getRecepcion());
+                    try {
+                        facade.persist(d, dg.getRecepcion());
+                    } catch (RetencionDuplicadaException ex) {
+                        hayDuplicaciones = true;
+                    }
                 } else {
                     FacesMessage message = new FacesMessage("Error", " La retencion no esta en borrador!");
                     FacesContext.getCurrentInstance().addMessage(null, message);
@@ -100,8 +109,9 @@ public class ImportacionController implements Serializable {
                 
             }
             
-            FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
-            FacesContext.getCurrentInstance().addMessage(null, message);
+            if (hayDuplicaciones) {
+                JsfUtil.addErrorMessage("Algunas retenciones se ignoraron por que son duplicadas!");
+            }
             
             retenciones = facade.getRetencionesNoMigradas();
         }
