@@ -171,7 +171,7 @@ public class ExportacionFacade implements IExportacionLocal {
 
         for (Cmtcomdetalleproductos df : f.getCmtcomdetalleproductos()) {
             String tasa = "" + df.getCmDetProPorIVA().intValue();
-            Detalle d = new Detalle(Double.valueOf("" + df.getCmDetProCan()), tasa, df.getCmDetProPre().doubleValue(), df.getCmDetProProDes());
+            Detalle d = new Detalle(df.getCmDetProCan().doubleValue(), tasa, df.getCmDetProPre().doubleValue(), df.getCmDetProProDes());
             detalles.add(d);
         }
 

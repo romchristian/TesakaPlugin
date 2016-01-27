@@ -43,7 +43,7 @@ public class Cmtcomdetalleproductos implements Serializable {
     @Column(name = "CmDetProUniMedDes")
     private String cmDetProUniMedDes;
     @Column(name = "CmDetProCan")
-    private Integer cmDetProCan;
+    private BigDecimal cmDetProCan;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "CmDetProPre")
     private BigDecimal cmDetProPre;
@@ -119,11 +119,11 @@ public class Cmtcomdetalleproductos implements Serializable {
         this.cmDetProUniMedDes = cmDetProUniMedDes;
     }
 
-    public Integer getCmDetProCan() {
+    public BigDecimal getCmDetProCan() {
         return cmDetProCan;
     }
 
-    public void setCmDetProCan(Integer cmDetProCan) {
+    public void setCmDetProCan(BigDecimal cmDetProCan) {
         this.cmDetProCan = cmDetProCan;
     }
 
