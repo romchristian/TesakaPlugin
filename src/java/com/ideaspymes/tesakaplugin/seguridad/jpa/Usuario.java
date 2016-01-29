@@ -31,9 +31,10 @@ public class Usuario implements Serializable {
     private String password;
     private String sucursal;
     private Integer timbrado;
+    private String establecimiento;
     private String puntoExpedicion;
     private Boolean permitido;
-    @ManyToMany(mappedBy = "usuarios",cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "usuarios", cascade = CascadeType.ALL)
     private List<Grupo> grupos;
 
     public Usuario() {
@@ -48,8 +49,6 @@ public class Usuario implements Serializable {
         this.nombres = nombres;
     }
 
-    
-    
     public Long getId() {
         return id;
     }
@@ -80,6 +79,14 @@ public class Usuario implements Serializable {
 
     public void setTimbrado(Integer timbrado) {
         this.timbrado = timbrado;
+    }
+
+    public String getEstablecimiento() {
+        return establecimiento;
+    }
+
+    public void setEstablecimiento(String establecimiento) {
+        this.establecimiento = establecimiento;
     }
 
     public String getPuntoExpedicion() {

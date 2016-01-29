@@ -47,9 +47,10 @@ public class ImportacionFacade {
 
     public List<RetencionGenerada> getRetencionesNoMigradas() {
 
-        return em.createQuery("SELECT r FROM RetencionGenerada r WHERE r.migrado = false and r.timbradoComprobante = ?1 and r.puntoExpedicionComprobante = ?2")
+        return em.createQuery("SELECT r FROM RetencionGenerada r WHERE r.migrado = false and r.timbradoComprobante = ?1 and r.puntoExpedicionComprobante = ?2 and r.establecimiento = ?3")
                 .setParameter(1, credencial.getUsuario().getTimbrado() + "")
                 .setParameter(2, credencial.getUsuario().getPuntoExpedicion())
+                .setParameter(3, credencial.getUsuario().getEstablecimiento())
                 .getResultList();
     }
 

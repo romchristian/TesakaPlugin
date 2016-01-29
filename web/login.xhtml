@@ -43,16 +43,10 @@
                                     <div class="SeparatorFull"></div>
                                     <span class="Fs14"> Olvidó su password ? - <p:link value="Obten uno nuevo!"/></span>
                                 </h:form>
-                                <div class="EmptyBox10"></div>
-                                <div class="EmptyBox10"></div>
-                                <div class="EmptyBox10"></div>
-                                <div class="EmptyBox10"></div>
-                                <div class="EmptyBox10"></div>
-                                <div class="EmptyBox10"></div>
-                                <div class="EmptyBox10"></div>
-                                <div class="EmptyBox10"></div>
-                                <div class="EmptyBox10"></div>
-                                <div class="EmptyBox10"></div>
+                                
+                                
+                                
+                                <div class="EmptyBox150"></div>
                             </div>
                         </div>
                         <div class="Container50 Responsive100">
@@ -69,27 +63,30 @@
                                                  required="true"
                                                  id="usuario"/>
                                     <div class="EmptyBox10"></div>
+                                    <p:selectOneMenu  value="#{registrador.actual.sucursal}" required="true"
+                                                      id="sucursal" style="width: 86%">
+                                        <f:selectItem itemLabel="ASU" itemValue="ASU"/>
+                                        <f:selectItem itemLabel="CDE" itemValue="CDE"/>
+                                        <f:selectItem itemLabel="PJC" itemValue="PJC"/>
+                                        <f:selectItem itemLabel="ENC" itemValue="ENC"/>
+                                    </p:selectOneMenu>
+                                    <div class="EmptyBox10"></div>
 
-
-
-                                    <div style="display: table;width: 98%">
-                                        <div style="display: table-cell;width: 27%;vertical-align: top;text-align: center">
-                                            <p:selectOneMenu  value="#{registrador.actual.sucursal}" required="true"
-                                                              id="sucursal">
-                                                <f:selectItem itemLabel="ASU" itemValue="ASU"/>
-                                                <f:selectItem itemLabel="CDE" itemValue="CDE"/>
-                                                <f:selectItem itemLabel="PJC" itemValue="PJC"/>
-                                                <f:selectItem itemLabel="ENC" itemValue="ENC"/>
-                                            </p:selectOneMenu>
-                                        </div>
-                                        <div style="display: table-cell;width: 40%;vertical-align: top">
+                                    <div style="display: table;width: 100%">
+                                        <div style="display: table-cell;width: 44%;vertical-align: top;text-align: center">
                                             <p:inputText styleClass="Wid80" placeholder="Timbrado" value="#{registrador.actual.timbrado}"
                                                          maxlength="8"
                                                          required="true"
                                                          id="timbrado"/>
                                         </div>
-                                        <div style="display: table-cell;width: 25%;vertical-align: top">
-                                            <p:inputText styleClass="Wid80" placeholder="Punto Exp." value="#{registrador.actual.puntoExpedicion}"
+                                        <div style="display: table-cell;width: 28%;vertical-align: top">
+                                            <p:inputText styleClass="Wid70" placeholder="Est." value="#{registrador.actual.establecimiento}"
+                                                         maxlength="3"
+                                                         required="true"
+                                                         id="establecimiento"/>
+                                        </div>
+                                        <div style="display: table-cell;width: 28%;vertical-align: top">
+                                            <p:inputText styleClass="Wid70" placeholder="Punto Exp." value="#{registrador.actual.puntoExpedicion}"
                                                          maxlength="3"
                                                          required="true"
                                                          id="puntoExpedicion"/>
