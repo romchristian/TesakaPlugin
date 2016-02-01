@@ -131,6 +131,7 @@ public class MigracionTabacos implements IMigracionFacade {
         System.out.println("IVA Gs: " + R.getTeRecRetIVAIncluidoGs());
         System.out.println("SIN IVA : " + R.getTeRecRetValTraSinIVA());
         System.out.println("SIN IVA Gs: " + R.getTeRecRetValorTotalSinIVAGs());
+        System.out.println("Ret IVA: " + R.getTeRecRetImpRet());
         
         return R;
 
