@@ -96,14 +96,14 @@ public class ImportacionController implements Serializable {
                 System.out.println("Totales: " + d.getTotales());
                 System.out.println("Id: " + d.getId());
                 
-                if (dg.getEstado().compareToIgnoreCase("borrador") == 0) {
+                if (dg.getEstado().compareToIgnoreCase("enviado") == 0) {
                     try {
                         facade.persist(d, dg.getRecepcion());
                     } catch (RetencionDuplicadaException ex) {
                         hayDuplicaciones = true;
                     }
                 } else {
-                    FacesMessage message = new FacesMessage("Error", " La retencion no esta en borrador!");
+                    FacesMessage message = new FacesMessage("Error", " La retencion no esta en enviador!");
                     FacesContext.getCurrentInstance().addMessage(null, message);
                 }
                 

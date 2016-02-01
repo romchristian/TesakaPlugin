@@ -205,15 +205,20 @@ public class RetencionGenerada implements Serializable {
         this.impuestoTotal = d.getTotales().getImpuestoTotal();
         this.valorTotal = d.getTotales().getValorTotal();
 
+        
+        String[]anumero = r.getNumeroComprobante().split("-");
+        
+        
+        
         this.fechaProceso = DateTime.parse(r.getFechaProceso(),
-                DateTimeFormat.forPattern("yyyy-MM-dd")).toDate();
-        this.numeroComprobante = r.getNumeroComprobante();
+                DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:SSS")).toDate();
+        this.numeroComprobante = anumero[2];
         this.fechaEmision = DateTime.parse(r.getFechaEmision(),
                 DateTimeFormat.forPattern("yyyy-MM-dd")).toDate();
         this.cadenaControl = r.getCadenaControl();
-        this.numero = r.getNumero();
+        this.numero = anumero[2];
         this.fechaRecepcion = DateTime.parse(r.getFechaRecepcion(),
-                DateTimeFormat.forPattern("yyyy-MM-dd")).toDate();
+                DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:SSS")).toDate();
         this.hashString = r.getHash();
         this.recepcionCorrecta = r.getRecepcionCorrecta();
         this.mensajeRecepcion = r.getMensajeRecepcion();

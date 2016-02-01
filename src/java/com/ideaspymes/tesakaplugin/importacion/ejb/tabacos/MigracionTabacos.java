@@ -14,6 +14,7 @@ import com.ideaspymes.tesakaplugin.importacion.ejb.IMigracionFacade;
 import com.ideaspymes.tesakaplugin.importacion.jpa.RetencionGenerada;
 import com.ideaspymes.tesakaplugin.importacion.json.TransaccionImp;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,10 +83,17 @@ public class MigracionTabacos implements IMigracionFacade {
 
         R.setTetrecretPK(pk);
 
+        
+        
+        
         R.setTeRecRetEdo('I');
         R.setTeRecRetFec(r.getFechaRetencion());
-        R.setTeRecRetIVAIncTra(getMontoUSS(r.getIvaTotal(),r.getTipoCambio()));
-        R.setTeRecRetIVAIncluidoGs(new BigDecimal(r.getIvaTotal()));
+        
+        
+        R.setTeRecRetIVAIncTra(new BigDecimal(r.getImpuestoTotal()));
+        R.setTeRecRetIVAIncluidoGs(getMontoGS(r.getImpuestoTotal(),r.getTipoCambio()));
+        
+        
         R.setTeRecRetImpRet(getMontoUSS(r.getRetencionTotal(),r.getTipoCambio()));
         R.setTeRecRetImporteRetenidoGs(new BigDecimal(r.getRetencionTotal()));
         R.setTeRecRetOPgNum(null);//Nro OP
@@ -106,16 +114,47 @@ public class MigracionTabacos implements IMigracionFacade {
         } else if (r.getCondicionCompra() != null && r.getCondicionCompra() == TransaccionImp.CondicionCompra.CREDITO) {
             R.setTeRecRetTpoDoc(new Short("2"));//Buscar desde la base de datos
         }
+        
+        
         R.setTeRecRetUltNumLinDet(new Short("0"));
-        R.setTeRecRetValTotTra(getMontoUSS(r.getValorTotal(),r.getTipoCambio()));
-        R.setTeRecRetValTraSinIVA(getMontoUSS(r.getValorTotal() - r.getImpuestoTotal(),r.getTipoCambio()));
-        R.setTeRecRetValorTotalSinIVAGs(new BigDecimal(r.getValorTotal() - r.getImpuestoTotal()));
-        R.setTeRecRetValorTotalTranGs(new BigDecimal(r.getValorTotal()));
+        
+        R.setTeRecRetValTotTra(new BigDecimal(r.getValorTotal()));
+        R.setTeRecRetValorTotalTranGs(getMontoGS(r.getValorTotal(),r.getTipoCambio()));
+        
+        R.setTeRecRetValTraSinIVA(new BigDecimal(r.getValorTotal() - r.getImpuestoTotal()));
+        R.setTeRecRetValorTotalSinIVAGs(getMontoGS(r.getValorTotal() - r.getImpuestoTotal(),r.getTipoCambio()));
+        
 
+        
+        
+        System.out.println("IVA : " + R.getTeRecRetIVAIncTra());
+        System.out.println("IVA Gs: " + R.getTeRecRetIVAIncluidoGs());
+        System.out.println("SIN IVA : " + R.getTeRecRetValTraSinIVA());
+        System.out.println("SIN IVA Gs: " + R.getTeRecRetValorTotalSinIVAGs());
+        
         return R;
 
     }
 
+    public BigDecimal getMontoGS(Double monto, Integer tipoCambio) {
+        if (tipoCambio == null || tipoCambio == 0) {
+            return new BigDecimal(monto);
+        } else {
+            return new BigDecimal(monto).multiply(new BigDecimal(tipoCambio)).setScale(0, RoundingMode.HALF_EVEN);
+        }
+
+    }
+
+    public BigDecimal getMontoGS(Integer monto, Integer tipoCambio) {
+        if (tipoCambio == null || tipoCambio == 0) {
+            return new BigDecimal(monto);
+        } else {
+            return new BigDecimal(monto).multiply(new BigDecimal(tipoCambio)).setScale(0, RoundingMode.HALF_EVEN);
+        }
+    }
+    
+    
+    
     public BigDecimal getMontoUSS(Double monto, Integer tipoCambio) {
         if (tipoCambio == null || tipoCambio == 0) {
             return new BigDecimal(monto);
