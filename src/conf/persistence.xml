@@ -10,6 +10,7 @@
     <class>com.ideaspymes.tesakaplugin.exportacion.jpa.tabacos.Tetdfa</class>
     <class>com.ideaspymes.tesakaplugin.exportacion.jpa.tabacos.Tetopg</class>
     <class>com.ideaspymes.tesakaplugin.exportacion.jpa.tabacos.Tetrecret</class>
+    <class>com.ideaspymes.tesakaplugin.exportacion.jpa.tabacos.Cmtcgr</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties/>
   </persistence-unit>

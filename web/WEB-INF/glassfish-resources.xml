@@ -6,7 +6,7 @@
         <property name="portNumber" value="1433"/>
         <property name="databaseName" value="GxTesoreria"/>
         <property name="User" value="vmovil"/>
-        <property name="Password" value="123"/>
+        <property name="Password" value="cromero1812"/>
         <property name="URL" value="jdbc:jtds:sqlserver://172.16.8.18:1433/GxTesoreria"/>
         <property name="driverClass" value="net.sourceforge.jtds.jdbc.Driver"/>
     </jdbc-connection-pool>

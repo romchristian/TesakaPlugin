@@ -175,7 +175,19 @@ public class Cmtcom implements Serializable {
     private Cmttco cmttco;
     @OneToMany(mappedBy = "cmtcom")
     private List<Cmtcomdetalleproductos> cmtcomdetalleproductos;
+    @OneToMany(mappedBy = "cmtcom")
+    private List<Cmtcgr> cmtcgrs;
 
+    public List<Cmtcgr> getCmtcgrs() {
+        return cmtcgrs;
+    }
+
+    public void setCmtcgrs(List<Cmtcgr> cmtcgrs) {
+        this.cmtcgrs = cmtcgrs;
+    }
+
+    
+    
     public List<Cmtcomdetalleproductos> getCmtcomdetalleproductos() {
         return cmtcomdetalleproductos;
     }

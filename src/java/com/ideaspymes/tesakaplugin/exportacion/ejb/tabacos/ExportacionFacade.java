@@ -6,6 +6,7 @@
 package com.ideaspymes.tesakaplugin.exportacion.ejb.tabacos;
 
 import com.ideaspymes.tesakaplugin.exportacion.ejb.IExportacionLocal;
+import com.ideaspymes.tesakaplugin.exportacion.jpa.tabacos.Cmtcgr;
 import com.ideaspymes.tesakaplugin.exportacion.jpa.tabacos.Cmtcom;
 import com.ideaspymes.tesakaplugin.exportacion.jpa.tabacos.Cmtcomdetalleproductos;
 import com.ideaspymes.tesakaplugin.exportacion.jpa.tabacos.Cmtprv;
@@ -43,25 +44,28 @@ public class ExportacionFacade implements IExportacionLocal {
 
     @Override
     public List<Documento> getDocumentos() {
-
+        
         List<Tetopg> ops = em.createQuery("SELECT op FROM Tetopg op WHERE op.teOPgEst = 'E' and op.teOPgSucCod = ?1")
                 .setParameter(1, getSucursal())
                 .getResultList();
 
-        List<Cmtcom> facturas = new ArrayList<>();
+        //List<Cmtcom> facturas = new ArrayList<>();
         List<Documento> R = new ArrayList<>();
 
         for (Tetopg op : ops) {
             for (Tetdfa dop : op.getTetdfaList()) {
                 if (dop.getTeDFaImpRet().compareTo(BigDecimal.ZERO) > 0) {
+                    
                     Cmtcom f = buscaFactura(dop.getTetopg().getTeOPgPrvCod().getCmPrvCod(),
                             dop.getTeDFaSucPrv(),
                             dop.getTeDFaPunExp(),
                             dop.getTeDFaDocNum(),
                             dop.getTeDFaTCoCod(),
                             dop.getTeDFaTimbrado());
+                    
+                    
                     if (f != null) {
-                        facturas.add(f);
+                        //facturas.add(f);
                         Documento doc = creaDocumento(f, op);
                         if (doc != null) {
                             R.add(doc);
@@ -166,15 +170,61 @@ public class ExportacionFacade implements IExportacionLocal {
 
     private List<Detalle> creaDetalles(Cmtcom f) {
         List<Detalle> detalles = new ArrayList<>();
-
+        
         System.out.println("Detalles Productos: " + f.getCmtcomdetalleproductos());
-
-        for (Cmtcomdetalleproductos df : f.getCmtcomdetalleproductos()) {
-            String tasa = "" + df.getCmDetProPorIVA().intValue();
-            Detalle d = new Detalle(df.getCmDetProCan().doubleValue(), tasa, df.getCmDetProPre().doubleValue(), df.getCmDetProProDes());
-            detalles.add(d);
+        
+        
+        Boolean b = false;
+        Boolean bExe = false; 
+        
+        for(Cmtcgr gr : f.getCmtcgrs()){
+            BigDecimal impGrabOrig = gr.getCmCGrImp();
+            BigDecimal impGrabFinal = gr.getCmCGrSal();
+            
+            if (impGrabOrig.compareTo(impGrabFinal) > 0) {
+                 b = true;
+                    break;
+            }
         }
+        
+        BigDecimal impExentasOrig = f.getCmComExeTot();
+        BigDecimal impExentasSaldo = f.getCmComExeSal();
+        
+        if (impExentasSaldo.compareTo(BigDecimal.ZERO) > 0) {
+            if (impExentasOrig.compareTo(impExentasSaldo) > 0) {
+                if (b == false){
+                    b = true;
+                }
+            }
+            bExe = true;
+        }
+        
+        
+        if (b == true) {
+            for(Cmtcgr gr : f.getCmtcgrs()){            
+                String tasa = ""+ gr.getCmCGrPrcIVA().intValue();
+                Detalle d = new Detalle( 1d, tasa, gr.getCmCGrSal().doubleValue(), "RETENCIÓN A PROVEEDOR");
+                detalles.add(d);
+            }
+            
+            if (bExe == true) {
+                String tasa = "0";
+                Detalle d = new Detalle( 1d, tasa, impExentasSaldo.doubleValue(), "RETENCIÓN A PROVEEDOR");
+                detalles.add(d);                
+                
+            }
+        }
+            
+        else {
 
+            for (Cmtcomdetalleproductos df : f.getCmtcomdetalleproductos()) {
+                String tasa = "" + df.getCmDetProPorIVA().intValue();
+                Detalle d = new Detalle(df.getCmDetProCan().doubleValue(), tasa, df.getCmDetProPre().doubleValue(), df.getCmDetProProDes());
+                detalles.add(d);
+            }
+        }
+        
+        
         return detalles;
     }
 
