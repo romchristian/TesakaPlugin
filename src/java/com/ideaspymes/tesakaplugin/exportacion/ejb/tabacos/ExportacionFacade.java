@@ -180,9 +180,10 @@ public class ExportacionFacade implements IExportacionLocal {
         for(Cmtcgr gr : f.getCmtcgrs()){
             BigDecimal impGrabOrig = gr.getCmCGrImp();
             BigDecimal impGrabFinal = gr.getCmCGrSal();
-            
+         System.out.println("bp 1");   
             if (impGrabOrig.compareTo(impGrabFinal) > 0) {
                  b = true;
+                 System.out.println("bp 2");
                     break;
             }
         }
@@ -191,8 +192,11 @@ public class ExportacionFacade implements IExportacionLocal {
         BigDecimal impExentasSaldo = f.getCmComExeSal();
         
         if (impExentasSaldo.compareTo(BigDecimal.ZERO) > 0) {
+            System.out.println("bp 3");
             if (impExentasOrig.compareTo(impExentasSaldo) > 0) {
+                System.out.println("bp 4");
                 if (b == false){
+                    System.out.println("bp 5");
                     b = true;
                 }
             }
@@ -201,6 +205,7 @@ public class ExportacionFacade implements IExportacionLocal {
         
         
         if (b == true) {
+            System.out.println("bp 6");
             for(Cmtcgr gr : f.getCmtcgrs()){            
                 String tasa = ""+ gr.getCmCGrPrcIVA().intValue();
                 Detalle d = new Detalle( 1d, tasa, gr.getCmCGrSal().doubleValue(), "RETENCIÓN A PROVEEDOR");
@@ -208,6 +213,7 @@ public class ExportacionFacade implements IExportacionLocal {
             }
             
             if (bExe == true) {
+                System.out.println("bp 7");
                 String tasa = "0";
                 Detalle d = new Detalle( 1d, tasa, impExentasSaldo.doubleValue(), "RETENCIÓN A PROVEEDOR");
                 detalles.add(d);                
@@ -216,6 +222,7 @@ public class ExportacionFacade implements IExportacionLocal {
         }
             
         else {
+            System.out.println("bp 8");
 
             for (Cmtcomdetalleproductos df : f.getCmtcomdetalleproductos()) {
                 String tasa = "" + df.getCmDetProPorIVA().intValue();
