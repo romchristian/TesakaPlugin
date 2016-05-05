@@ -12,6 +12,7 @@
     <class>com.ideaspymes.tesakaplugin.exportacion.jpa.tabacos.Tetrecret</class>
     <class>com.ideaspymes.tesakaplugin.exportacion.jpa.tabacos.Cmtcgr</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <shared-cache-mode>NONE</shared-cache-mode>
     <properties/>
   </persistence-unit>
   <persistence-unit name="TesakaLocalPU" transaction-type="JTA">
