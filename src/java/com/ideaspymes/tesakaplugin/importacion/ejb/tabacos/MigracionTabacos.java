@@ -181,7 +181,7 @@ public class MigracionTabacos implements IMigracionFacade {
         Short R = 0;
         try {
             Integer ruc = new Integer(proveedorRuc + proveedorDv);
-            R = ((Integer) em.createNativeQuery("select cmprvcod from cmtprv where cmPrvRucNue = " + ruc)
+            R = ((Integer) em.createNativeQuery("select cmprvcod from cmtprv where cmPrvRucNue = " + ruc + " and cmprvestado = 'A' ")
                     .getSingleResult()).shortValue();
 
         } catch (Exception e) {
