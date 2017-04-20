@@ -219,9 +219,7 @@ public class ExportacionFacade implements IExportacionLocal {
                 detalles.add(d);                
                 
             }
-        }
-            
-        else {
+        } else {
             System.out.println("bp 8");
 
             for (Cmtcomdetalleproductos df : f.getCmtcomdetalleproductos()) {
