@@ -19,6 +19,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 
 /**
@@ -131,10 +133,10 @@ public class RetencionGenerada implements Serializable {
 
         this.uuid = d.getAtributos().getUuid();
 
-        this.fechaCreacion = DateTime.parse(d.getAtributos().getFechaCreacion(),
+        this.fechaCreacion = LocalDate.parse(d.getAtributos().getFechaCreacion(),
                 DateTimeFormat.forPattern("yyyy-MM-dd")).toDate();
         this.fechaHoraCreacion = DateTime.parse(d.getAtributos().getFechaHoraCreacion(),
-                DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")).toDate();;
+                DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")).toDate();
 
         this.codigoEstablecimiento = d.getInformante().getCodigoEstablecimiento();
         this.timbradoComprobante = d.getInformante().getTimbradoComprobante();
@@ -145,8 +147,8 @@ public class RetencionGenerada implements Serializable {
         this.tipoComprobante = d.getTransaccion().getTipoComprobante();
         this.numeroTimbradoFactura = d.getTransaccion().getNumeroTimbrado();
         this.numeroComprobanteVenta = d.getTransaccion().getNumeroComprobanteVenta();
-        this.fechaFactura = DateTime.parse(d.getTransaccion().getFecha(),
-                DateTimeFormat.forPattern("yyyy-MM-dd")).toDate();;
+        this.fechaFactura = LocalDate.parse(d.getTransaccion().getFecha(),
+                DateTimeFormat.forPattern("yyyy-MM-dd")).toDate();
         this.proveedorRuc = d.getInformado().getRuc();
         this.proveedorDv = d.getInformado().getDv();
         this.proveedorNombre = d.getInformado().getNombre();
@@ -163,7 +165,7 @@ public class RetencionGenerada implements Serializable {
 
         this.totalFactura = total;
 
-        this.fechaRetencion = DateTime.parse(d.getRetencion().getFecha(),
+        this.fechaRetencion = LocalDate.parse(d.getRetencion().getFecha(),
                 DateTimeFormat.forPattern("yyyy-MM-dd")).toDate();
         this.moneda = d.getRetencion().getMoneda();
         this.tipoCambio = d.getRetencion().getTipoCambio();
@@ -213,7 +215,7 @@ public class RetencionGenerada implements Serializable {
         this.fechaProceso = DateTime.parse(r.getFechaProceso(),
                 DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:SSS")).toDate();
         this.numeroComprobante = anumero[2];
-        this.fechaEmision = DateTime.parse(r.getFechaEmision(),
+        this.fechaEmision = LocalDate.parse(r.getFechaEmision(),
                 DateTimeFormat.forPattern("yyyy-MM-dd")).toDate();
         this.cadenaControl = r.getCadenaControl();
         this.numero = anumero[2];
