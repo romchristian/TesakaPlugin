@@ -40,50 +40,50 @@ import java.util.logging.Logger;
 @Named
 @ViewScoped
 public class ImportacionController implements Serializable {
-    
+
     private UploadedFile file;
     @EJB
     private ImportacionFacade facade;
     @EJB
     private IMigracionFacade facadeMigracion;
     private List<RetencionGenerada> retenciones;
-    
+
     public UploadedFile getFile() {
         return file;
     }
-    
+
     public void setFile(UploadedFile file) {
         this.file = file;
     }
-    
+
     public List<RetencionGenerada> getRetenciones() {
         return retenciones;
     }
-    
+
     public void setRetenciones(List<RetencionGenerada> retenciones) {
         this.retenciones = retenciones;
     }
-    
+
     public void handleFileUpload(FileUploadEvent event) throws IOException {
         if (event.getFile() != null) {
             StringWriter writer = new StringWriter();
             IOUtils.copy(event.getFile().getInputstream(), writer, "UTF-8");
-            
+
             String json = writer.toString();
-            
+
             System.out.println(json);
-            
+
             Gson gson = new Gson();
-            
+
             Type listType = new TypeToken<ArrayList<DocumentoGenerado>>() {
             }.getType();
             List<DocumentoGenerado> datos = gson.fromJson(json, listType);
-            
+
             System.out.println("datos: " + datos.size());
-            
+
             retenciones = new ArrayList<>();
             boolean hayDuplicaciones = false;
-            
+
             for (DocumentoGenerado dg : datos) {
                 Datos d = dg.getDatos();
                 System.out.println("Recepcion: " + dg.getEstado());
@@ -95,7 +95,7 @@ public class ImportacionController implements Serializable {
                 System.out.println("Recepcion: " + dg.getRecepcion());
                 System.out.println("Totales: " + d.getTotales());
                 System.out.println("Id: " + d.getId());
-                
+
                 if (dg.getEstado().compareToIgnoreCase("enviado") == 0) {
                     try {
                         facade.persist(d, dg.getRecepcion());
@@ -106,25 +106,33 @@ public class ImportacionController implements Serializable {
                     FacesMessage message = new FacesMessage("Error", " La retencion no esta en enviador!");
                     FacesContext.getCurrentInstance().addMessage(null, message);
                 }
-                
+
             }
-            
+
             if (hayDuplicaciones) {
                 JsfUtil.addErrorMessage("Algunas retenciones se ignoraron por que son duplicadas!");
             }
-            
+
             retenciones = facade.getRetencionesNoMigradas();
         }
     }
-    
+
     public String migrar() {
+        for (RetencionGenerada r : retenciones) {
+            if (r.getMigrado()) {
+                facade.marcaMigrado(r);
+            }
+        }
+
         List<RetencionGenerada> retencionesMigradas = facadeMigracion.migra(retenciones);
+        
+        
         for (RetencionGenerada r : retencionesMigradas) {
             facade.marcaMigrado(r);
         }
-        
+
         retenciones = facade.getRetencionesNoMigradas();
-        
+
         return null;
     }
 }

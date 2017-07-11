@@ -41,6 +41,9 @@
 
                         <p:dataTable value="#{importacionController.retenciones}" var="r" id="retenciones"
                                      rendered="#{not(empty importacionController.retenciones)}">
+                            <p:column headerText="Anulado">
+                                <p:selectBooleanCheckbox value="#{r.migrado}"/>
+                            </p:column>
                             <p:column headerText="RUC Proveedor">
                                 <h:outputText value="#{r.proveedorRuc} - #{r.proveedorDv}"/>
                             </p:column>
@@ -81,6 +84,8 @@
                                     <f:convertNumber locale="#{formateador.locale}"/>
                                 </h:outputText>
                             </p:column>
+                            
+                            
                         </p:dataTable>
                     </p:outputPanel>
 
